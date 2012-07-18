@@ -1,0 +1,6 @@
+{
+    "require": {
+        "EHER/PHPUnit": "dev-master",
+        "jiriknesl/mockista": "dev-default"
+    }
+}

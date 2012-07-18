@@ -1,0 +1,8 @@
+
+{block #content}
+
+<h1>{$username}</h1>
+
+<section n:foreach="$presentations as $p">
+	<a href="{plink Presentation:show username => $username, slug => $p->slug}">{$p->name}</a>
+</section>

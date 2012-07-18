@@ -1,0 +1,87 @@
+[
+    {
+        "name": "symfony/finder",
+        "version": "v2.0.16",
+        "version_normalized": "2.0.16.0",
+        "target-dir": "Symfony/Component/Finder",
+        "time": "2012-07-02 05:05:19",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/Finder",
+            "reference": "v2.0.16"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/symfony/Finder/zipball/v2.0.16",
+            "reference": "v2.0.16",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.3"
+        },
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.1-dev"
+            }
+        },
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com",
+                "homepage": null,
+                "role": null
+            },
+            {
+                "name": "Symfony Community",
+                "email": null,
+                "homepage": "http://symfony.com/contributors",
+                "role": null
+            }
+        ],
+        "description": "Symfony Finder Component",
+        "homepage": "http://symfony.com",
+        "autoload": {
+            "psr-0": {
+                "Symfony\\Component\\Finder": ""
+            }
+        }
+    },
+    {
+        "name": "EHER/PHPUnit",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "time": "2012-05-24 02:02:08",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/EHER/phpunit-all-in-one",
+            "reference": "5129a677f272d49f6aee8223aa3a1b5fed2a53b7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://github.com/EHER/phpunit-all-in-one/zipball/5129a677f272d49f6aee8223aa3a1b5fed2a53b7",
+            "reference": "5129a677f272d49f6aee8223aa3a1b5fed2a53b7",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0",
+            "symfony/finder": "*"
+        },
+        "bin": [
+            "bin/dbunit",
+            "bin/phpcov",
+            "bin/phpcpd",
+            "bin/phpdcd",
+            "bin/phploc",
+            "bin/phpunit",
+            "bin/phpunit-skelgen"
+        ],
+        "type": "library",
+        "installation-source": "source",
+        "description": "Unofficial version of PHPUnit to be handled with Composer."
+    }
+]

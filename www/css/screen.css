@@ -1,0 +1,108 @@
+body {
+	font: 16px/1.5 "Trebuchet MS", "Geneva CE", lucida, sans-serif;
+	color: #bbb;
+	background: url('../img/bg.png');
+	width: 900px;
+	margin: 0 auto;
+}
+
+h1 {
+	color: #4595E3;
+	text-shadow: black 2px 2px 0px;
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+header.homepage h1 {
+	font-family: "Times New Roman";
+	font-style: italic;
+	font-size: 400%;
+	color: #4595E3;
+	text-shadow: black 2px 2px 0px;
+	text-align: center;
+	margin-top: 150px;
+}
+
+header.homepage p {
+	color: grey;
+	text-shadow: black 0px 1px 0px;
+	text-align: center;
+}
+
+header.main {
+	margin-bottom: 20px;
+}
+header.dashboard span.username {
+	font-size: 150%;
+	font-weight: bold;
+	vertical-align: middle;
+}
+header.dashboard span.tool {
+	margin-left: 20px;
+	font-size: small;
+	vertical-align: middle;
+}
+
+#ajax-spinner {
+	margin: 15px 0 0 15px;
+	padding: 13px;
+	background: white url('../img/spinner.gif') no-repeat 50% 50%;
+	font-size: 0;
+	z-index: 123456;
+	display: none;
+}
+
+div.flash {
+	color: black;
+	background: #FFF9D7;
+	border: 1px solid #E2C822;
+	padding: 1em;
+	margin: 1em 0;
+}
+
+a[href^="error:"] {
+	background: red;
+	color: white;
+}
+
+.float-right {
+	float: right;
+}
+
+.form-actions {
+	background-color: #191919;
+}
+
+input[type=text], input[type=password], input[type=email], select {
+	padding: 5px;
+	border-radius: 3px;
+	border: 1px solid grey;
+}
+
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+	color: white;
+	background-color: #202020;
+	border: 1px solid #cccccc;
+	-moz-box-shadow: rgba(255, 255, 255, 0.1) 0 1px 0, rgba(0, 0, 0, 0.8) 0 1px 7px 0px inset;
+	-webkit-box-shadow: rgba(255, 255, 255, 0.1) 0 1px 0, rgba(0, 0, 0, 0.8) 0 1px 7px 0px inset;
+	-o-box-shadow: rgba(255, 255, 255, 0.1) 0 1px 0, rgba(0, 0, 0, 0.8) 0 1px 7px 0px inset;
+	box-shadow: rgba(255, 255, 255, 0.1) 0 1px 0, rgba(0, 0, 0, 0.8) 0 1px 7px 0px inset;
+	background: #202020;
+	background-color: rgba(0, 0, 0, 0.3);
+	border-color: #111;
+}
