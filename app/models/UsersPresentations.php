@@ -1,5 +1,7 @@
 <?php
 
+use Nette\Caching\IStorage;
+
 class UserPresentations extends BaseTable {
 
 	/** @var Users */
@@ -10,8 +12,8 @@ class UserPresentations extends BaseTable {
 	private $presentations;
 
 
-	public function __construct(Nette\Database\Connection $db, Users $users, Presentations $presentations) {
-		parent::__construct($db);
+	public function __construct(Nette\Database\Connection $db, IStorage $storage, Users $users, Presentations $presentations) {
+		parent::__construct($db, $storage);
 		$this->users = $users;
 		$this->presentations = $presentations;
 	}

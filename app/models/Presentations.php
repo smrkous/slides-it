@@ -9,13 +9,14 @@ class Presentations extends BaseTable {
 
 
 	/**
-	 * @return \Nette\Database\Table\Selection
+	 * @cache(expire = 3600, sliding = true)
+	 * @return \Nette\Database\Table\ActiveRow|FALSE
 	 */
 	public function findBySlugAndAuthor($slug, $authorId) {
 		return $this->findOneBy([
 				'slug' => $slug,
 				'author_id' => $authorId
-			]);
+			])->toArray();
 	}
 
 }

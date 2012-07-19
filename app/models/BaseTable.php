@@ -1,16 +1,23 @@
 <?php
 
-/**
- * Represents repository for database table
- */
+use Nette\Caching\IStorage;
+use Nette\Database\Connection;
+
 abstract class BaseTable extends Nette\Object {
 
-	/** @var \Nette\Database\Connection */
+	use \MethodCallCacher;
+	
+	/** @var Connection */
 	protected $connection;
 
 
-	public function __construct(Nette\Database\Connection $db) {
+	/** @var IStorage */
+	protected $cacheStorage;
+
+
+	public function __construct(Nette\Database\Connection $db, IStorage $storage) {
 		$this->connection = $db;
+		$this->cacheStorage = $storage;
 	}
 
 
@@ -71,7 +78,7 @@ abstract class BaseTable extends Nette\Object {
 	 *
 	 * @param  array row values
 	 * @return \Nette\Database\Table\ActiveRow created row
-	 * @throws \NetteAddons\DuplicateEntryException
+	 * @throws DuplicateEntryException
 	 */
 	protected function createRow(array $values) {
 		try {

@@ -16,9 +16,9 @@ class PresentationPresenter extends BasePresenter {
 		}
 
 		$presentation = $this->context->presentations->
-			findBySlugAndAuthor($slug, $author->id);
+			c_findBySlugAndAuthor($slug, $author->id);
 		if(!$presentation) {
-			throw Exception();
+			throw Exception(); // TODO predelat
 		}
 		$this->presentation = $presentation;
 	}

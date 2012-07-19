@@ -36,9 +36,9 @@ common:
 
 		authenticator: Authenticator(@users)
 
-		users: Users(@database)
-		presentations: Presentations(@database)
-		userPresentations: UserPresentations(@database)
+		users: Users(@database, @cacheStorage)
+		presentations: Presentations(@database, @cacheStorage)
+		userPresentations: UserPresentations(@database, @cacheStorage)
 
 	factories:
 
