@@ -32,8 +32,7 @@ $container = $configurator->createContainer();
 $container->router[] = new Route('index.php', 'Homepage:default', Route::ONE_WAY);
 $container->router[] = new Route('<presenter sign>/<action>[/<id>]', 'Homepage:default');
 $container->router[] = new Route('<username>', 'User:default');
-$container->router[] = new Route('<username>/<slug>', 'Presentation:show');
-$container->router[] = new Route('<username>/<slug>/edit', 'Presentation:edit');
+$container->router[] = new Route('<username>/<slug>[/<action>]', 'Presentation:show');
 
 // Configure and run the application!
 if(php_sapi_name() != 'cli')
