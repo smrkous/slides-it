@@ -5,8 +5,6 @@ use Nette\Database\Connection;
 
 abstract class BaseTable extends Nette\Object {
 
-	use \MethodCallCacher;
-	
 	/** @var Connection */
 	protected $connection;
 

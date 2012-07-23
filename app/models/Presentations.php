@@ -16,7 +16,7 @@ class Presentations extends BaseTable {
 		return $this->findOneBy([
 				'slug' => $slug,
 				'author_id' => $authorId
-			])->toArray();
+			]);
 	}
 
 }
