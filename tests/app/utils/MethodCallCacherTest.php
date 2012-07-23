@@ -44,7 +44,7 @@ class CachedClass {
 	}
 
 
-	/** @cache(expire = 1) */
+	/** @cache(expire = 1, sliding = true) */
 	public function getRandomNumber() {
 		return rand(0, 10e10);
 	}
@@ -70,8 +70,6 @@ class MethodCallCacherTest extends BaseTestCase {
 		$c1 = $obj->c_getRandomNumber();
 		$c2 = $obj->c_getRandomNumber();
 		$this->assertEquals($c1, $c2);
-		sleep(2);
-		$this->assertNotEquals($c1, $obj->c_getRandomNumber());
 	}
 
 
