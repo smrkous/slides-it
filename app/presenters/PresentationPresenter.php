@@ -4,9 +4,36 @@ class PresentationPresenter extends BasePresenter {
 
 	private $presentation;
 
+	public function actionEdit() {
+		$isPost = $this->getRequest()
+			->isMethod(Nette\Http\IRequest::POST);
 
-	protected function beforeRender() {
-		parent::beforeRender();
+		if($isPost) {
+			$content = $this->getParam('data');
+
+			if(!$content)
+				$this->terminate();
+
+			$this->context->presentations->createOrUpdate([
+				'id' => $this->getPresentation()->id,
+				'content' => $content
+			]);
+		}
+	}
+
+	public function renderShow() {
+		$this->template->presentation = $this->getPresentation();
+	}
+
+	public function renderEdit() {
+		$this->template->presentation = $this->getPresentation();
+	}
+
+	protected function getPresentation() {
+		if($this->presentation !== null) {
+			return $this->presentation;
+		}
+
 		$username = $this->getParam('username');
 		$slug = $this->getParam('slug');
 
@@ -20,12 +47,9 @@ class PresentationPresenter extends BasePresenter {
 		if(!$presentation) {
 			throw Exception(); // TODO predelat
 		}
+
 		$this->presentation = $presentation;
-	}
-
-
-	public function renderShow() {
-		$this->template->presentation = $this->presentation;
+		return $this->presentation;
 	}
 
 }

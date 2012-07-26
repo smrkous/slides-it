@@ -1,0 +1,39 @@
+
+body {
+	font: 16px/1.5 "Trebuchet MS", "Geneva CE", lucida, sans-serif;
+	color: #bbb;
+	background: url('../img/bg.png');
+	margin: 0 auto;
+}
+
+#editor-container {
+	width: 1024px;
+	height: 800px;
+	margin: 0 auto;
+	zoom: 0.65;
+	position: inherit;
+}
+
+#editor-container section.slide {
+	height: 100%;
+}
+
+#slide-preview {
+	float: left;
+	border-right: 2px solid grey;
+	position: relative;
+	height: 800px;
+	overflow-y: scroll;
+}
+#slide-preview .deck-container {
+	width: 1024px;
+	height: 750px;
+	position: relative;
+	zoom: 0.2;
+}
+#slide-preview .deck-container > .slide {
+	margin-top: 10px;
+}
+#slide-preview .deck-current {
+	z-index: 0;
+}
