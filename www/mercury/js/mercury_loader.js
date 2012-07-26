@@ -31,7 +31,7 @@
 if (!window.mercuryPackages) window.mercuryPackages = {
 	bundled: {
 		javascripts: 'mercury/js/mercury.js,mercury/js/mercury_dialogs.js', 
-		stylesheets: 'mercury/css/mercury.bundle.css'
+		stylesheets: 'mercury/css/mercury.bundle.css,mercury/css/extension.css'
 	}
 };
 

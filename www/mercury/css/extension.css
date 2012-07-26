@@ -1,0 +1,5 @@
+
+.mercury-primary-toolbar .mercury-insertSlide-button em,
+.mercury-expander-button[data-button="insertSlide"] em {
+	background-image: url('../img/slide.png');
+}
