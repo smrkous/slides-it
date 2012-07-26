@@ -144,6 +144,10 @@ works fine.
 		
 		// Use a wrapper on each slide to handle content scaling
 		$.each(rootSlides, function(i, $slide) {
+			var wrapperSelector = '.' + opts.classes.scaleSlideWrapper;
+			if($slide.find(wrapperSelector).size() != 0) {
+				$slide.children().children().unwrap();
+			}
 			$slide.children().wrapAll('<div class="' + opts.classes.scaleSlideWrapper + '"/>');
 		});
 
