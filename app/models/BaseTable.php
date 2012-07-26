@@ -107,7 +107,7 @@ abstract class BaseTable extends Nette\Object {
 		$values = array_values($values);
 
 		$this->connection->queryArgs(
-			"INSERT INTO {$this->tableName} SET " . $pairs .
+			"INSERT INTO {$this->tableName()} SET " . $pairs .
 			' ON DUPLICATE KEY UPDATE ' . $pairs, array_merge($values, $values)
 		);
 
