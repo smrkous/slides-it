@@ -46,9 +46,8 @@ header.dashboard span.tool {
 .presentation-list div {
 	display: block;
 	padding: 5px 10px;
-	border: 1px solid grey;
+	border-bottom: 1px solid #333;
 }
-
 .presentation-list div .name {
 	font-size: 18px;
 }

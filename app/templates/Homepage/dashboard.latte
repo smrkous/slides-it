@@ -1,22 +1,26 @@
 
 {block content}
 
+{var $username = $user->identity->username}
+
 <header class="dashboard well">
 	<a class="float-right btn btn-large btn-success">New presentation</a>
 
-	<span class="username">{$user->identity->username}</span>
+	<span class="username">{$username}</span>
 </header>
 
 <section class="presentation-list">
 	<div n:foreach="$presentations as $p">
-		<a n:href="Presentation:show, username => $username, slug => $p->slug"
-		   class="name">
+		<a n:href="Presentation:show, username => $username, slug => $p->slug" class="name">
 			{$p->name}
 		</a>
 		-
-		<a n:href="Presentation:edit, username => $username, slug => $p->slug"
-		   class="edit">
+		<a n:href="Presentation:edit, username => $username, slug => $p->slug">
 			edit
+		</a>
+		-
+		<a href="#"class="share-link" data-presentation="{$p->id}">
+			share
 		</a>
 	</div>
 </section>

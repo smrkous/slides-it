@@ -28,7 +28,17 @@
 
 		{include #content}
 	</body>
+	
+	<script type="text/javascript">
+		paths = {
+			base: {$basePath},
+			modals: {
+				share: {plink Modal:share}
+			}
+		};
+	</script>
 
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.min.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/jquery-1.7.min.js"></script>
 	<script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/slideit.js"></script>
 </html>

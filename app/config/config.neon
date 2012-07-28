@@ -39,6 +39,7 @@ common:
 		users: Users(@database, @cacheStorage)
 		presentations: Presentations(@database, @cacheStorage)
 		userPresentations: UserPresentations(@database, @cacheStorage)
+		shares: Shares(@database, @cacheStorage)
 
 	factories:
 
