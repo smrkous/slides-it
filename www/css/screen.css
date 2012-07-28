@@ -43,6 +43,16 @@ header.dashboard span.tool {
 	vertical-align: middle;
 }
 
+.presentation-list div {
+	display: block;
+	padding: 5px 10px;
+	border: 1px solid grey;
+}
+
+.presentation-list div .name {
+	font-size: 18px;
+}
+
 #ajax-spinner {
 	margin: 15px 0 0 15px;
 	padding: 13px;

@@ -20,4 +20,11 @@ class HomepagePresenter extends BasePresenter {
 		
 	}
 
+
+	public function renderDashboard() {
+		$model = $this->context->presentations;
+		$userId = $this->user->id;
+		$this->template->presentations = $model->findPresentationsByAuthor($userId);
+	}
+
 }

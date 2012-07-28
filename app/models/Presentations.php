@@ -8,10 +8,13 @@ class Presentations extends BaseTable {
 	}
 
 
-	/**
-	 * @cache(expire = 3600, sliding = true)
-	 * @return \Nette\Database\Table\ActiveRow|FALSE
-	 */
+	public function findPresentationsByAuthor($authorId) {
+		return $this->findBy([
+				'author_id' => $authorId
+			]);
+	}
+
+
 	public function findBySlugAndAuthor($slug, $authorId) {
 		return $this->findOneBy([
 				'slug' => $slug,
