@@ -46,8 +46,9 @@ class Editor
 								allowedAttrs = ['data-id', 'id']
 								
 								cont.children().each () ->
-												attrs = (attr.name for attr in this.attributes when attr.name not in allowedAttrs)
-												$(this).removeAttr attrs.join(' ')
+												attrs = this.attributes
+												names = (a.name for a in attrs when a.name not in allowedAttrs)
+												$(this).removeAttr names.join(' ')
 												$(this).addClass('slide')
 								
 								htmlContent = cont.html()

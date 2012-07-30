@@ -53,20 +53,20 @@ Editor = (function() {
     }
     allowedAttrs = ['data-id', 'id'];
     cont.children().each(function() {
-      var attr, attrs;
-      attrs = (function() {
-        var _i, _len, _ref, _ref1, _results;
-        _ref = this.attributes;
+      var a, attrs, names;
+      attrs = this.attributes;
+      names = (function() {
+        var _i, _len, _ref, _results;
         _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          attr = _ref[_i];
-          if (_ref1 = attr.name, __indexOf.call(allowedAttrs, _ref1) < 0) {
-            _results.push(attr.name);
+        for (_i = 0, _len = attrs.length; _i < _len; _i++) {
+          a = attrs[_i];
+          if (_ref = a.name, __indexOf.call(allowedAttrs, _ref) < 0) {
+            _results.push(a.name);
           }
         }
         return _results;
-      }).call(this);
-      $(this).removeAttr(attrs.join(' '));
+      })();
+      $(this).removeAttr(names.join(' '));
       return $(this).addClass('slide');
     });
     htmlContent = cont.html();
