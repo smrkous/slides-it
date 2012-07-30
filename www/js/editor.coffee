@@ -101,7 +101,7 @@ class Editor
 								$.each classNames.split(/\s+/), ->
 												if this.substring(0, 9) is 'on-slide-'
 																slideIndex = this.substring 9
-																return false
+																return false # breaks iteration
 		
 								return slideIndex
 		
