@@ -1,7 +1,7 @@
 var ModalWindow;
 
 $(function() {
-  return $('.share-link').on('click', function() {
+  $('.share-link').on('click', function() {
     var id, modal;
     id = $(this).data('presentation');
     modal = new ModalWindow;
@@ -10,7 +10,17 @@ $(function() {
     });
     return false;
   });
+  return $('#new-presentation-link').on('click', function() {
+    var modal;
+    modal = new ModalWindow;
+    modal.load(paths.modals.create);
+    return false;
+  });
 });
+
+String.prototype.webalize = function() {
+  return this.toLowerCase().replace(/[^a-z0-9]+/gm, '-').replace(/(^-)|(-$)/g, '');
+};
 
 ModalWindow = (function() {
 
@@ -18,12 +28,12 @@ ModalWindow = (function() {
     var _this = this;
     this._container = $('<div class=modal>');
     this._header = $('<div class=modal-header>').appendTo(this._container);
+    this._closeButton = $('<a class=close>').text('x').attr('href', '#').appendTo(this._header).click(function() {
+      return _this.close();
+    });
     this._headerContent = $('<h3>').appendTo(this._header);
     this._body = $('<div class=modal-body>').appendTo(this._container);
     this._footer = $('<div class=modal-footer>').appendTo(this._container);
-    $('<button class="btn btn-success">').text('OK').appendTo(this._footer).click(function() {
-      return _this._container.remove();
-    });
   }
 
   ModalWindow.prototype.show = function() {
@@ -38,9 +48,14 @@ ModalWindow = (function() {
       if (result.snippets) {
         _this.header(result.snippets['snippet--header']);
         _this.body(result.snippets['snippet--body']);
+        _this.footer(result.snippets['snippet--footer']);
       }
       return _this.show();
     });
+  };
+
+  ModalWindow.prototype.close = function() {
+    return this._container.remove();
   };
 
   ModalWindow.prototype.updateOrReturn = function(element, content) {
@@ -56,6 +71,10 @@ ModalWindow = (function() {
 
   ModalWindow.prototype.body = function(content) {
     return this.updateOrReturn(this._body, content);
+  };
+
+  ModalWindow.prototype.footer = function(content) {
+    return this.updateOrReturn(this._footer, content);
   };
 
   return ModalWindow;
