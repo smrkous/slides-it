@@ -3,6 +3,15 @@
 
 <h1>{$username}</h1>
 
+{if $user->loggedIn}
+	{if $username == $user->identity->username}
+		<p>This is you!</p>
+	{else}
+		<a n:if="!$isFollowed" n:href="follow!" class="btn btn-success ajax">Follow</a>
+		<a n:if="$isFollowed" n:href="unfollow!" class="btn btn-warning ajax">Unfollow</a>
+	{/if}
+{/if}
+
 <section n:foreach="$presentations as $p">
 	<a href="{plink Presentation:show username => $username, slug => $p->slug}">{$p->name}</a>
 </section>

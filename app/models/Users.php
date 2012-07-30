@@ -17,4 +17,41 @@ class Users extends BaseTable {
 			]);
 	}
 
+
+	public function follow($followerId, $followingUsername) {
+		$following = $this->findByUsername($followingUsername);
+
+		if(!$following) return;
+
+		try {
+			$this->connection->table('followings')->insert([
+				'user_id' => $followerId,
+				'following_id' => $following->id
+			]);
+		} catch(PDOException $e) {
+			if($e->getCode() == 23000) return;
+			throw $e;
+		}
+	}
+
+
+	public function unfollow($followerId, $followingUsername) {
+		$following = $this->findByUsername($followingUsername);
+
+		if(!$following) return;
+
+		$this->connection->table('followings')->where([
+			'user_id' => $followerId,
+			'following_id' => $following->id
+		])->delete();
+	}
+
+
+	public function isFollowed($userId, $byFolllowerId) {
+		return $this->connection->table('followings')->where([
+			'user_id' => $byFolllowerId,
+			'following_id' => $userId
+		])->count() === 1;
+	}
+
 }

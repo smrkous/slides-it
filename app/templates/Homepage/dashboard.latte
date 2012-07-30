@@ -1,11 +1,32 @@
 
 {block content}
 
-<header class="dashboard well">
-	<a class="float-right btn btn-large btn-success">New presentation</a>
+{var $username = $user->identity->username}
 
-	<span class="username">{$user->identity->username}</span>
+<header class="dashboard well">
+	<a id="new-presentation-link" class="float-right btn btn-large btn-success">New presentation</a>
+
+	<span class="username">{$username}</span>
 </header>
 
-<p>TODO vypis vsech prezentaci</p>
+<section class="presentation-list">
+	<div n:foreach="$presentations as $p">
+		<a n:href="Presentation:show, username => $username, slug => $p->slug" class="name">
+			{$p->name}
+		</a>
+		-
+		<a n:href="Presentation:edit, username => $username, slug => $p->slug">
+			edit
+		</a>
+		-
+		<a href="#"class="share-link" data-presentation="{$p->id}">
+			share
+		</a>
+	</div>
+</section>
+
+<br/>
+<br/>
+<p>TODO vypis aktivit sledovanych useru</p>
 <p>TODO vypis sdilenych prezentaci</p>
+<p>TODO - nebo oba dva dohromady</p>

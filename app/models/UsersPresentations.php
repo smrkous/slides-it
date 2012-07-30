@@ -7,7 +7,6 @@ class UserPresentations extends BaseTable {
 	/** @var Users */
 	private $users;
 
-
 	/** @var Presentations */
 	private $presentations;
 
@@ -28,6 +27,19 @@ class UserPresentations extends BaseTable {
 		return $this->presentations->findBy([
 				'author_id' => $user->id
 			]);
+	}
+
+
+	/**
+	 * @return \Nette\Database\Table\ActiveRow
+	 */
+	public function findByUsernameAndSlug($username, $slug) {
+		$user = $this->users->findByUsername($username);
+		if(!$user) {
+			throw new \Nette\InvalidStateException("User '$user' doesn't exist");
+		}
+
+		return $this->presentations->findBySlugAndAuthor($slug, $user->id);
 	}
 
 }

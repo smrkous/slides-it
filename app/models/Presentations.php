@@ -1,5 +1,7 @@
 <?php
 
+use Nette\Templating\Helpers;
+
 class Presentations extends BaseTable {
 
 
@@ -8,10 +10,26 @@ class Presentations extends BaseTable {
 	}
 
 
-	/**
-	 * @cache(expire = 3600, sliding = true)
-	 * @return \Nette\Database\Table\ActiveRow|FALSE
-	 */
+	public function createPresentation($authorId, $name, $slug) {
+		$title = Helpers::escapeHtml($name);
+		$content = '<section class="slide"><h1>' . $title . '</h1></section>';
+		return $this->createRow([
+				'name' => $name,
+				'slug' => $slug,
+				'content' => $content,
+				'last_slide_id' => 1,
+				'author_id' => $authorId
+			]);
+	}
+
+
+	public function findPresentationsByAuthor($authorId) {
+		return $this->findBy([
+				'author_id' => $authorId
+			]);
+	}
+
+
 	public function findBySlugAndAuthor($slug, $authorId) {
 		return $this->findOneBy([
 				'slug' => $slug,

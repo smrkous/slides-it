@@ -31,6 +31,7 @@ $container = $configurator->createContainer();
 // Setup router
 $container->router[] = new Route('index.php', 'Homepage:default', Route::ONE_WAY);
 $container->router[] = new Route('<presenter sign>/<action>[/<id>]', 'Homepage:default');
+$container->router[] = new Route('internal/<presenter modal>/<action>');
 $container->router[] = new Route('<username>', 'User:default');
 $container->router[] = new Route('<username>/<slug>[/<action>]', 'Presentation:show');
 

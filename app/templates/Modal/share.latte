@@ -1,0 +1,42 @@
+
+{layout none}
+
+
+{snippet header}Share Presentation{/snippet}
+
+
+{snippet body}
+	{if count($shares) == 0}
+		
+		<div class="alert alert-info">
+			<strong>You don't share this presentation with anyone.</strong>
+			<br/>
+			Type in their e-mail address or <em>Slide It</em> username to share!
+		</div>
+		
+	{else}
+		<p>Here is a list of users with which you share this presentation:</p>
+		
+		<hr/>
+		
+		{foreach $shares as $share}
+			<div>
+				{$share->user->username} {$share->editable ? 'can edit'} - unshare
+			</div>
+		{/foreach}
+		
+		<hr/>
+		
+	{/if}
+	
+	<h4>Share with the world</h4>
+	{form shareForm class => 'form-horizontal'}
+		<div class="control-group">
+			{label people, class => 'control-label' /}
+			<div class="controls">
+				{input people, class => 'text'}
+				{input add, class => 'btn btn-success'}
+			</div>
+		</div>
+	{/form}
+{/snippet}

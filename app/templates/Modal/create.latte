@@ -1,0 +1,42 @@
+
+{layout none}
+
+
+{snippet header}Create Presentation{/snippet}
+
+
+{snippet body}
+	{control createForm}
+{/snippet}
+
+
+{snippet footer}
+	<button class="btn btn-success" id="create-presentation-button">Create</button>
+	
+	<script>
+		$(function() {
+			var update = true;
+			
+			setTimeout(function() {
+				
+				$('#frmcreateForm-name').on('keyup', function() {
+					if(!update) return;
+					
+					webalized = $(this).val().webalize();
+					$('#frmcreateForm-slug').val(webalized);
+				});
+				
+				
+				$('#frmcreateForm-slug').on('change', function() {
+					update = false;
+				});
+				
+				
+				$('#create-presentation-button').on('click', function() {
+					$('#frm-createForm').submit();
+				});
+				
+			}, 5);
+		});
+	</script>
+{/snippet}
