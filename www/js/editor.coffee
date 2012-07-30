@@ -52,7 +52,7 @@ class Editor
 												$(this).addClass('slide')
 								
 								htmlContent = cont.html()
-								$.post('', { data: htmlContent })
+								$.post('', { data: htmlContent, lastSlideId: @lastSlideId })
 
 
 				insertSlide: ->

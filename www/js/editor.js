@@ -71,7 +71,8 @@ Editor = (function() {
     });
     htmlContent = cont.html();
     return $.post('', {
-      data: htmlContent
+      data: htmlContent,
+      lastSlideId: this.lastSlideId
     });
   };
 
