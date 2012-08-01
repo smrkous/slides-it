@@ -8,19 +8,9 @@ class PresentationPresenter extends BasePresenter {
 	public function actionEdit() {
 		$isPost = $this->getRequest()
 			->isMethod(Nette\Http\IRequest::POST);
-		
-		/** @todo predelat :) */
+
 		if($isPost) {
-			$content = $this->getParam('data');
-			$lastSlideId = $this->getParam('lastSlideId');
-
-			if(!$content) $this->terminate();
-
-			$this->context->presentations->createOrUpdate([
-				'id' => $this->getPresentation()->id,
-				'content' => $content,
-				'last_slide_id' => $lastSlideId
-			]);
+			$this->savePresentation();
 		}
 	}
 
@@ -51,6 +41,18 @@ class PresentationPresenter extends BasePresenter {
 
 		$this->presentation = $presentation;
 		return $this->presentation;
+	}
+
+
+	private function savePresentation() {
+		$presentationId = $this->getPresentation()->id;
+		$content = $this->getParam('data');
+		$lastSlideId = $this->getParam('lastSlideId');
+
+		if(!$content) $this->terminate();
+
+		$this->context->presentations
+			->update($presentationId, $content, $lastSlideId);
 	}
 
 }

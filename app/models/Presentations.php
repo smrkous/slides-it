@@ -37,4 +37,13 @@ class Presentations extends BaseTable {
 			]);
 	}
 
+
+	public function update($presentationId, $content, $lastSlideId) {
+		$this->createOrUpdate([
+			'id' => $presentationId,
+			'content' => trim($content),
+			'last_slide_id' => (int) $lastSlideId
+		]);
+	}
+
 }
