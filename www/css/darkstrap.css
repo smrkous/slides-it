@@ -393,6 +393,10 @@ legend {
 	color: #c6c6c6;
 }
 
+.modal-body .alert {
+	color: white;
+}
+
 /* line 254, ../sass/darkstrap.scss */
 .modal-footer {
 	background-color: #373737;
