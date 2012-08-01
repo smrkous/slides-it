@@ -52,11 +52,17 @@ ModalWindow = (function() {
     this._headerContent = $('<h3>').appendTo(this._header);
     this._body = $('<div class=modal-body>').appendTo(this._container);
     this._footer = $('<div class=modal-footer>').appendTo(this._container);
+    this._backdrop = $('<div class=modal-backdrop>');
   }
 
   ModalWindow.prototype.show = function() {
+    var body;
+    body = $('body');
+    this._backdrop.hide();
     this._container.hide();
-    this._container.appendTo($('body'));
+    this._backdrop.appendTo(body);
+    this._container.appendTo(body);
+    this._backdrop.fadeIn();
     return this._container.fadeIn();
   };
 
@@ -73,7 +79,8 @@ ModalWindow = (function() {
   };
 
   ModalWindow.prototype.close = function() {
-    return this._container.remove();
+    this._container.remove();
+    return this._backdrop.remove();
   };
 
   ModalWindow.prototype.updateOrReturn = function(element, content) {

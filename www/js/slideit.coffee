@@ -58,11 +58,21 @@ class ModalWindow
 												
 								@_footer = $('<div class=modal-footer>')
 												.appendTo(@_container)
+												
+												
+								@_backdrop = $('<div class=modal-backdrop>')
 				
 				
 				show: ->
+								body = $('body')
+								
+								@_backdrop.hide()
 								@_container.hide()
-								@_container.appendTo $('body')
+								
+								@_backdrop.appendTo body
+								@_container.appendTo body
+								
+								@_backdrop.fadeIn()
 								@_container.fadeIn()
 				
 				
@@ -77,6 +87,7 @@ class ModalWindow
 				
 				close: ->
 								@_container.remove()
+								@_backdrop.remove()
 							
 				
 				updateOrReturn: (element, content) ->
