@@ -1,19 +1,18 @@
 
 $ -> 
-				$('.share-link').on 'click', ->
-								id = $(this).data('presentation')
-								
-								modal = new ModalWindow
-								modal.load(paths.modals.share, id: id)
-								
-								return false
+				$('.share-link').each ->
+								this.getModalArguments = =>
+												return id: $(this).data('presentation')
 								
 				
-				$('#new-presentation-link').on 'click', ->
-								modal = new ModalWindow
-								modal.load(paths.modals.create)
+				$('[data-modal]').on 'click', (event) ->
+								page = $(this).data('modal')
+								args = if this.getModalArguments then this.getModalArguments() else null
 								
-								return false
+								modal = new ModalWindow
+								modal.load(paths.modals[page], args)
+								
+								event.preventDefault()
 
 
 String::translate = (from, to) -> 

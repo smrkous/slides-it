@@ -4,7 +4,7 @@
 {var $username = $user->identity->username}
 
 <header class="dashboard well">
-	<a id="new-presentation-link" class="float-right btn btn-large btn-success">New presentation</a>
+	<a data-modal="create" class="float-right btn btn-large btn-success">New presentation</a>
 
 	<span class="username">{$username}</span>
 </header>
@@ -19,7 +19,7 @@
 			edit
 		</a>
 		-
-		<a href="#"class="share-link" data-presentation="{$p->id}">
+		<a href="#" class="share-link" data-modal="share" data-presentation="{$p->id}">
 			share
 		</a>
 	</div>

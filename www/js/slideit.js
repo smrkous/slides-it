@@ -1,20 +1,21 @@
 var ModalWindow;
 
 $(function() {
-  $('.share-link').on('click', function() {
-    var id, modal;
-    id = $(this).data('presentation');
-    modal = new ModalWindow;
-    modal.load(paths.modals.share, {
-      id: id
-    });
-    return false;
+  $('.share-link').each(function() {
+    var _this = this;
+    return this.getModalArguments = function() {
+      return {
+        id: $(_this).data('presentation')
+      };
+    };
   });
-  return $('#new-presentation-link').on('click', function() {
-    var modal;
+  return $('[data-modal]').on('click', function(event) {
+    var args, modal, page;
+    page = $(this).data('modal');
+    args = this.getModalArguments ? this.getModalArguments() : null;
     modal = new ModalWindow;
-    modal.load(paths.modals.create);
-    return false;
+    modal.load(paths.modals[page], args);
+    return event.preventDefault();
   });
 });
 
