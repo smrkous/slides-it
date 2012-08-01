@@ -18,8 +18,25 @@ $(function() {
   });
 });
 
+String.prototype.translate = function(from, to) {
+  var origChar, out, pos, _i, _len, _ref;
+  out = "";
+  _ref = this.split("");
+  for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+    origChar = _ref[_i];
+    pos = from.indexOf(origChar);
+    out += pos !== -1 ? to.charAt(pos) : origChar;
+  }
+  return out;
+};
+
 String.prototype.webalize = function() {
-  return this.toLowerCase().replace(/[^a-z0-9]+/gm, '-').replace(/(^-)|(-$)/g, '');
+  var out;
+  out = this.toLowerCase();
+  out = out.translate("áčďéěíňóřšťúůýžàäâèëêìïîòöôùüûñç", "acdeeinorstuuyzaaaeeeiiiooouuunc");
+  out = out.replace(/[^a-z0-9]+/gm, '-');
+  out = out.replace(/(^-)|(-$)/g, '');
+  return out;
 };
 
 ModalWindow = (function() {

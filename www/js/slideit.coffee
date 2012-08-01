@@ -16,8 +16,23 @@ $ ->
 								return false
 
 
+String::translate = (from, to) -> 
+				out = ""
+				for origChar in this.split("")
+								pos = from.indexOf(origChar);
+								out += if pos isnt -1 then to.charAt pos else origChar
+				return out
+
+
 String::webalize = ->
-				return this.toLowerCase().replace(/[^a-z0-9]+/gm, '-').replace(/(^-)|(-$)/g, '')
+				out = this.toLowerCase()
+				out = out.translate(
+								"áčďéěíňóřšťúůýžàäâèëêìïîòöôùüûñç",
+								"acdeeinorstuuyzaaaeeeiiiooouuunc"
+				)
+				out = out.replace /[^a-z0-9]+/gm, '-'
+				out = out.replace /(^-)|(-$)/g, ''
+				return out
 
 
 class ModalWindow
