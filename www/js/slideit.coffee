@@ -48,15 +48,15 @@ class ModalWindow
 												.appendTo(@_header)
 												.click( => @close())
 												
-								@_headerContent = $('<h3>')
+								@_headerContent = $('<h3 id=snippet--modal_header>')
 												.appendTo(@_header)
 												
 												
-								@_body = $('<div class=modal-body>')
+								@_body = $('<div class=modal-body id=snippet--modal_body>')
 												.appendTo(@_container)
 												
 												
-								@_footer = $('<div class=modal-footer>')
+								@_footer = $('<div class=modal-footer id=snippet--modal_footer>')
 												.appendTo(@_container)
 												
 												
@@ -77,12 +77,9 @@ class ModalWindow
 				
 				
 				load: (url, data) ->
-								$.get url, data or {}, (result) =>
-												if result.snippets
-																@header result.snippets['snippet--header']
-																@body result.snippets['snippet--body']
-																@footer result.snippets['snippet--footer']
+								$.get url, data or {}, (payload) =>
 												@show()
+												jQuery.nette.success(payload)
 				
 				
 				close: ->

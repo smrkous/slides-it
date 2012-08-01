@@ -1,6 +1,7 @@
 <?php
 
 use Nette\Forms\Form;
+use Nette\Utils\Strings;
 
 class ModalPresenter extends BasePresenter {
 
@@ -36,9 +37,11 @@ class ModalPresenter extends BasePresenter {
 	public function createComponentCreateForm() {
 		$form = $this->createFormPrototype();
 
-		$form->addText('name', 'Presentation Title');
+		$form->addText('name', 'Presentation Title')
+			->setRequired();
 
-		$form->addText('slug', 'URL representation');
+		$form->addText('slug', 'URL representation')
+			->setRequired();
 
 		$form->onSuccess[] = callback($this, 'createPresentation');
 
@@ -51,15 +54,26 @@ class ModalPresenter extends BasePresenter {
 
 		$userId = $this->user->id;
 		$name = $form->values['name'];
-		$slug = $form->values['slug'];
+		$slug = Strings::webalize($form->values['slug']);
 
-		$p = $this->context->presentations
-			->createPresentation($userId, $name, $slug);
+		try {
+			$p = $this->context->presentations
+				->createPresentation($userId, $name, $slug);
 
-		$this->redirect('Presentation:edit', [
-			'username' => $this->user->identity->username,
-			'slug' => $p->slug
-		]);
+			$this->redirect('Presentation:edit', [
+				'username' => $this->user->identity->username,
+				'slug' => $p->slug
+			]);
+		} catch(DuplicateEntryException $e) {
+			$this->addMessage('One of your presentations already has this URL representation');
+		}
+	}
+	
+	private function addMessage($message) {
+		if(!isset($this->template->messages)) {
+			$this->template->messages = [];
+		}
+		$this->template->messages[] = $message;
 	}
 
 }

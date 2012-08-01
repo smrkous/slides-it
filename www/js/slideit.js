@@ -49,9 +49,9 @@ ModalWindow = (function() {
     this._closeButton = $('<a class=close>').text('x').attr('href', '#').appendTo(this._header).click(function() {
       return _this.close();
     });
-    this._headerContent = $('<h3>').appendTo(this._header);
-    this._body = $('<div class=modal-body>').appendTo(this._container);
-    this._footer = $('<div class=modal-footer>').appendTo(this._container);
+    this._headerContent = $('<h3 id=snippet--modal_header>').appendTo(this._header);
+    this._body = $('<div class=modal-body id=snippet--modal_body>').appendTo(this._container);
+    this._footer = $('<div class=modal-footer id=snippet--modal_footer>').appendTo(this._container);
     this._backdrop = $('<div class=modal-backdrop>');
   }
 
@@ -68,13 +68,9 @@ ModalWindow = (function() {
 
   ModalWindow.prototype.load = function(url, data) {
     var _this = this;
-    return $.get(url, data || {}, function(result) {
-      if (result.snippets) {
-        _this.header(result.snippets['snippet--header']);
-        _this.body(result.snippets['snippet--body']);
-        _this.footer(result.snippets['snippet--footer']);
-      }
-      return _this.show();
+    return $.get(url, data || {}, function(payload) {
+      _this.show();
+      return jQuery.nette.success(payload);
     });
   };
 

@@ -2,15 +2,21 @@
 {layout none}
 
 
-{snippet header}Create Presentation{/snippet}
+{snippet modal_header}Create Presentation{/snippet}
 
 
-{snippet body}
+{snippet modal_body}
+	{default $messages = []}
+
+	{foreach $messages as $message}
+		<p class="alert">{$message}</p>
+	{/foreach}
+	
 	{control createForm}
 {/snippet}
 
 
-{snippet footer}
+{snippet modal_footer}
 	<button class="btn btn-success" id="create-presentation-button">Create</button>
 	
 	<script>
@@ -18,6 +24,11 @@
 			var update = true;
 			
 			setTimeout(function() {
+				
+				$('#frm-createForm').on('submit', function(e) {
+					$('#frm-createForm').ajaxSubmit(e);
+				});
+				
 				
 				$('#frmcreateForm-name').on('keyup', function() {
 					if(!update) return;
@@ -32,8 +43,8 @@
 				});
 				
 				
-				$('#create-presentation-button').on('click', function() {
-					$('#frm-createForm').submit();
+				$('#create-presentation-button').on('click', function(e) {
+					$('#frm-createForm').ajaxSubmit(e);
 				});
 				
 			}, 5);
