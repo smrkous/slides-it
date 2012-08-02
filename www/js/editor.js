@@ -1,4 +1,4 @@
-var Editor, editor,
+var AbbrHandler, Editor, editor, insertAbbr,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 editor = null;
@@ -7,9 +7,10 @@ $(function() {
   if (typeof Mercury !== 'undefined') {
     editor = new Editor(lastSlideId);
     editor.run();
-    return Mercury.on('region:update', function(event, selection) {
+    Mercury.on('region:update', function(event, selection) {
       return console.log(selection.region.selection());
     });
+    return Mercury.modalHandlers.insertAbbr = insertAbbr;
   }
 });
 
@@ -76,6 +77,12 @@ Editor = (function() {
     });
   };
 
+  Editor.prototype.insertAbbr = function(selection) {
+    var handler;
+    handler = new AbbrHandler;
+    return handler.handle(selection);
+  };
+
   Editor.prototype.insertSlide = function() {
     var currentPreview, currentSlide;
     this.lastSlideId++;
@@ -120,3 +127,44 @@ Editor = (function() {
   return Editor;
 
 })();
+
+AbbrHandler = (function() {
+
+  function AbbrHandler() {}
+
+  AbbrHandler.prototype.handle = function(selection) {
+    var modal;
+    return modal = Mercury.modal('/mercury/modals/abbr.html', {
+      handler: 'insertAbbr',
+      title: 'Insert Abbreviation'
+    });
+  };
+
+  return AbbrHandler;
+
+})();
+
+insertAbbr = function() {
+  var container, selection,
+    _this = this;
+  selection = Mercury.region.selection();
+  container = selection.commonAncestor(true).closest('abbr');
+  if (container && container.length !== 0) {
+    this.element.find('#abbr').val(container.text());
+    this.element.find('#explanation').val(container.attr('title'));
+  } else {
+    this.element.find('#abbr').val(selection.textContent());
+  }
+  return this.element.find('form').on('submit', function(event) {
+    var abbr, expl;
+    event.preventDefault();
+    abbr = _this.element.find('#abbr').val();
+    expl = _this.element.find('#explanation').val();
+    if (container && container.length) {
+      container.text(abbr).attr('title', expl);
+    } else {
+      selection.insertNode($('<abbr>').text(abbr).attr('title', expl));
+    }
+    return _this.hide();
+  });
+};

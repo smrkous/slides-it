@@ -107,6 +107,7 @@ window.Mercury = {
         insertMedia:           ['Media', 'Insert Media (images and videos)', { modal: '/mercury/modals/media.html', regions: ['full', 'markdown'] }],
         insertTable:           ['Table', 'Insert Table', { modal: '/mercury/modals/table.html', regions: ['full', 'markdown'] }],
         insertCharacter:       ['Character', 'Special Characters', { modal: '/mercury/modals/character.html', regions: ['full', 'markdown'] }],
+		insertAbbr:            ['Abbr.', 'Insert abbreviation', { regions: ['full', 'markdown'] }],
         snippetPanel:          ['Snippet', 'Snippet Panel', { panel: '/mercury/panels/snippets.html' }],
         sep2:                  ' ',
         historyPanel:          ['History', 'Page Version History', { panel: '/mercury/panels/history.html' }],
@@ -318,6 +319,10 @@ window.Mercury = {
       htmlEditor: function() { Mercury.modal('/mercury/modals/htmleditor.html', { title: 'HTML Editor', fullHeight: true, handler: 'htmlEditor' }); },
       preview: function() {
 		  window.open('./', 'Preview', 'width=800,height=600', false);
+		},
+      insertAbbr: function(selection) {
+		  var window = document.getElementById('mercury_iframe').contentWindow;
+		  window.editor.insertAbbr(selection);
 		}
       },
 
@@ -14648,9 +14653,9 @@ Showdown.converter = function() {
         this.appear();
       }
       if (this.options.content) {
-        return setTimeout(500, function() {
+        return setTimeout(function() {
           return _this.loadContent(_this.options.content);
-        });
+        }, 500);
       }
     },
     initialize: function() {
@@ -17210,7 +17215,19 @@ Showdown.converter = function() {
         return this.execCommand('insertHorizontalRule');
       },
       removeFormatting: function(selection) {
-        return selection.insertTextNode(selection.textContent());
+		var origText = selection.textContent();
+		var ancestor = selection.commonAncestor(true)
+		if(ancestor && ancestor.text() == origText) {
+			while(ancestor.parent().text() == origText) {
+				if(ancestor.parent().is('li')) break;
+				ancestor = ancestor.parent()
+			}
+		}
+		if(ancestor && ancestor.text() == origText && !ancestor.is('li')) {
+			return ancestor.replaceWith(selection.textContent());
+		} else {
+			return selection.insertTextNode(selection.textContent());
+		}
       },
       backColor: function(selection, options) {
         return selection.wrap("<span style=\"background-color:" + (options.value.toHex()) + "\">", true);
