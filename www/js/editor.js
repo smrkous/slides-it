@@ -84,14 +84,15 @@ Editor = (function() {
   };
 
   Editor.prototype.insertSlide = function() {
-    var currentPreview, currentSlide;
+    var currentPreview, currentSlide, currentSlideIndex;
     this.lastSlideId++;
+    currentSlideIndex = this.getCurrentSlideIndex();
     currentSlide = $('#editor-container .deck-current');
     $('<section>').addClass('slide').attr('data-mercury', 'full').attr('data-id', this.lastSlideId).insertAfter(currentSlide);
     currentPreview = this.getCurrentSlidePreview();
     $('<section>').addClass('slide').attr('data-id', this.lastSlideId).insertAfter(currentPreview).hide().fadeIn();
     this.initializeDeck();
-    $.deck('next');
+    $.deck('go', currentSlideIndex + 1);
     return Mercury.trigger('reinitialize');
   };
 
@@ -117,7 +118,7 @@ Editor = (function() {
     classNames = $('#editor-container').attr('class');
     $.each(classNames.split(/\s+/), function() {
       if (this.substring(0, 9) === 'on-slide-') {
-        slideIndex = this.substring(9);
+        slideIndex = parseInt(this.substring(9));
         return false;
       }
     });

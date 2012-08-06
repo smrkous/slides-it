@@ -65,6 +65,8 @@ class Editor
 				insertSlide: ->
 								@lastSlideId++;
 								
+								currentSlideIndex = @getCurrentSlideIndex()
+								
 								currentSlide = $('#editor-container .deck-current')
 								$('<section>')
 												.addClass('slide')
@@ -81,7 +83,7 @@ class Editor
 												.fadeIn()
 		
 								@initializeDeck()
-								$.deck('next');
+								$.deck('go', currentSlideIndex + 1);
 		
 								Mercury.trigger('reinitialize');
 
@@ -107,7 +109,7 @@ class Editor
 								classNames = $('#editor-container').attr 'class'
 								$.each classNames.split(/\s+/), ->
 												if this.substring(0, 9) is 'on-slide-'
-																slideIndex = this.substring 9
+																slideIndex = parseInt(this.substring 9)
 																return false # breaks iteration
 		
 								return slideIndex
