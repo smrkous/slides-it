@@ -19,6 +19,7 @@ that use the API provided by core.
 	var slides, // Array of all the uh, slides...
 	current, // Array index of the current slide
 	$container, // Keeping this cached
+	nextOrPrev = 0, // true if next() or prev() was called
 	
 	events = {
 		/*
@@ -279,6 +280,10 @@ that use the API provided by core.
 				$d.trigger(events.change, [ndx, current]);
 			}
 			else {
+				if(nextOrPrev != 0 && slides[ndx].hasClass(options.classes.aside)) {
+					this.go(ndx + nextOrPrev);
+					return;
+				}
 				current = ndx;
 				updateStates();
 			}
@@ -291,7 +296,9 @@ that use the API provided by core.
 		is ignored.
 		*/
 		next: function() {
+			nextOrPrev = 1;
 			methods.go(current+1);
+			nextOrPrev = 0;
 		},
 		
 		/*
@@ -301,7 +308,9 @@ that use the API provided by core.
 		call is ignored.
 		*/
 		prev: function() {
+			nextOrPrev = -1;
 			methods.go(current-1);
+			nextOrPrev = 0;
 		},
 		
 		/*
@@ -444,7 +453,8 @@ that use the API provided by core.
 			loading: 'deck-loading',
 			next: 'deck-next',
 			onPrefix: 'on-slide-',
-			previous: 'deck-previous'
+			previous: 'deck-previous',
+			aside: 'aside'
 		},
 		
 		selectors: {
