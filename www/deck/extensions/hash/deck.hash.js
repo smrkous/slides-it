@@ -28,6 +28,11 @@ slide.
 	matches it to the appropriate slide, and navigates there.
 	*/
 	goByHash = function(str) {
+		if(str.indexOf("#") == -1) {
+			$[deck]('go', 0);
+			return;
+		}
+		
 		var id = str.substr(str.indexOf("#") + 1),
 		slides = $[deck]('getSlides');
 		
