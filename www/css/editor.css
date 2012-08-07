@@ -19,20 +19,22 @@ body {
 }
 
 #slide-preview {
+	width: 260px;
 	float: left;
 	border-right: 2px solid grey;
 	position: relative;
-	height: 800px;
-	overflow-y: scroll;
+	overflow: auto;
 }
 #slide-preview .deck-container {
-	width: 1024px;
-	height: 750px;
+	width: 205px;
+	height: 150px;
 	position: relative;
-	zoom: 0.2;
+	min-height: 0;
+	padding: 0 8px;
+	margin-top: 10px;
 }
 #slide-preview .deck-container > .slide {
-	margin-top: 10px;
+	zoom: 0.2;
 }
 #slide-preview .deck-current {
 	z-index: 0;

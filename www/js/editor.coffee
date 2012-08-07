@@ -4,8 +4,6 @@ $ ->
 				if typeof Mercury isnt 'undefined'
 								editor = new Editor(lastSlideId);
 								editor.run();
-								Mercury.on 'region:update', (event, selection) -> 
-												console.log selection.region.selection()
 								
 								Mercury.modalHandlers.insertAbbr = insertAbbr
 												
@@ -24,18 +22,9 @@ class Editor
 	
 	
 				run: -> 
-								# update for changes in currently edited slide
-								window.setInterval (=>
-												@updatePreview()
-								), 5000
-								
-								that = this
-								$('#slide-preview section.slide').live 'click', ->
-												that.updatePreview()
-												idx = $(this).prevAll('.slide').size()
-												$.deck 'go', idx
+								@previewer = new SlidePreviewer(this)
 		
-								$('#editor-container > .slide').attr 'data-mercury', 'full'
+								$('#editor-container section.slide').attr 'data-mercury', 'full'
 
 
 				save: ->
@@ -74,18 +63,68 @@ class Editor
 												.attr('data-id', @lastSlideId)
 												.insertAfter(currentSlide);
 								
-								currentPreview = @getCurrentSlidePreview()
-								$('<section>')
-												.addClass('slide')
-												.attr('data-id', @lastSlideId)
-												.insertAfter(currentPreview)
-												.hide()
-												.fadeIn()
+								@previewer.insertSlide()
 		
 								@initializeDeck()
 								$.deck('go', currentSlideIndex + 1);
 		
 								Mercury.trigger('reinitialize');
+				
+		
+				getCurrentSlideIndex: ->
+								slideIndex = -1
+		
+								classNames = $('#editor-container').attr 'class'
+								$.each classNames.split(/\s+/), ->
+												if this.substring(0, 9) is 'on-slide-'
+																slideIndex = parseInt(this.substring 9)
+																return false # breaks iteration
+		
+								return slideIndex
+
+
+
+class SlidePreviewer
+				constructor: (@editor) ->
+								@init()
+								@setupUpdater()
+				
+				
+				setupUpdater: ->
+								window.setInterval((=>
+												@updatePreview()
+								), 5000)
+				
+				
+				init: ->
+								_this = this
+								
+								$('#slide-preview section.slide')
+												.wrap($('<div class="deck-container">'))
+								
+								$('#slide-preview section.slide').on 'click', -> 
+												_this.updatePreview()
+												idx = $(this).parent().prevAll('.deck-container').size()
+												$.deck 'go', idx
+								
+								$(window).resize ->
+												_this.resize()
+								
+								@resize()
+								
+				
+				insertSlide: ->
+								currentPreviewCont = @getCurrentSlidePreview().parent()
+								
+								slide = $('<section>')
+												.addClass('slide')
+												.attr('data-id', @editor.lastSlideId)
+												
+								$('<div class="deck-container">')
+												.append(slide)
+												.insertAfter(currentPreviewCont)
+												.hide()
+												.slideDown()
 
 
 				updatePreview: ->
@@ -99,21 +138,15 @@ class Editor
 				
 				
 				getCurrentSlidePreview: ->
-								slideIndex = @getCurrentSlideIndex()
+								slideIndex = editor.getCurrentSlideIndex()
 								return $('#slide-preview section.slide').eq(slideIndex)
-				
-		
-				getCurrentSlideIndex: ->
-								slideIndex = -1
-		
-								classNames = $('#editor-container').attr 'class'
-								$.each classNames.split(/\s+/), ->
-												if this.substring(0, 9) is 'on-slide-'
-																slideIndex = parseInt(this.substring 9)
-																return false # breaks iteration
-		
-								return slideIndex
-				
+
+
+				resize: ->
+								height = $(window).height()
+								$('#slide-preview').height(height)
+
+
 
 class AbbrHandler
 				handle: (selection) ->

@@ -1,4 +1,4 @@
-var AbbrHandler, Editor, editor, insertAbbr,
+var AbbrHandler, Editor, SlidePreviewer, editor, insertAbbr,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
 editor = null;
@@ -7,9 +7,6 @@ $(function() {
   if (typeof Mercury !== 'undefined') {
     editor = new Editor(lastSlideId);
     editor.run();
-    Mercury.on('region:update', function(event, selection) {
-      return console.log(selection.region.selection());
-    });
     return Mercury.modalHandlers.insertAbbr = insertAbbr;
   }
 });
@@ -30,19 +27,8 @@ Editor = (function() {
   };
 
   Editor.prototype.run = function() {
-    var that,
-      _this = this;
-    window.setInterval((function() {
-      return _this.updatePreview();
-    }), 5000);
-    that = this;
-    $('#slide-preview section.slide').live('click', function() {
-      var idx;
-      that.updatePreview();
-      idx = $(this).prevAll('.slide').size();
-      return $.deck('go', idx);
-    });
-    return $('#editor-container > .slide').attr('data-mercury', 'full');
+    this.previewer = new SlidePreviewer(this);
+    return $('#editor-container section.slide').attr('data-mercury', 'full');
   };
 
   Editor.prototype.save = function() {
@@ -84,32 +70,15 @@ Editor = (function() {
   };
 
   Editor.prototype.insertSlide = function() {
-    var currentPreview, currentSlide, currentSlideIndex;
+    var currentSlide, currentSlideIndex;
     this.lastSlideId++;
     currentSlideIndex = this.getCurrentSlideIndex();
     currentSlide = $('#editor-container .deck-current');
     $('<section>').addClass('slide').attr('data-mercury', 'full').attr('data-id', this.lastSlideId).insertAfter(currentSlide);
-    currentPreview = this.getCurrentSlidePreview();
-    $('<section>').addClass('slide').attr('data-id', this.lastSlideId).insertAfter(currentPreview).hide().fadeIn();
+    this.previewer.insertSlide();
     this.initializeDeck();
     $.deck('go', currentSlideIndex + 1);
     return Mercury.trigger('reinitialize');
-  };
-
-  Editor.prototype.updatePreview = function() {
-    var htmlContent, slide;
-    slide = $.deck('getSlide');
-    if (slide.find('.deck-slide-scaler').size() !== 0) {
-      slide = slide.children();
-    }
-    htmlContent = slide.html();
-    return this.getCurrentSlidePreview().html(htmlContent);
-  };
-
-  Editor.prototype.getCurrentSlidePreview = function() {
-    var slideIndex;
-    slideIndex = this.getCurrentSlideIndex();
-    return $('#slide-preview section.slide').eq(slideIndex);
   };
 
   Editor.prototype.getCurrentSlideIndex = function() {
@@ -126,6 +95,70 @@ Editor = (function() {
   };
 
   return Editor;
+
+})();
+
+SlidePreviewer = (function() {
+
+  function SlidePreviewer(editor) {
+    this.editor = editor;
+    this.init();
+    this.setupUpdater();
+  }
+
+  SlidePreviewer.prototype.setupUpdater = function() {
+    var _this = this;
+    return window.setInterval((function() {
+      return _this.updatePreview();
+    }), 5000);
+  };
+
+  SlidePreviewer.prototype.init = function() {
+    var _this;
+    _this = this;
+    $('#slide-preview section.slide').wrap($('<div class="deck-container">'));
+    $('#slide-preview section.slide').on('click', function() {
+      var idx;
+      _this.updatePreview();
+      idx = $(this).parent().prevAll('.deck-container').size();
+      return $.deck('go', idx);
+    });
+    $(window).resize(function() {
+      return _this.resize();
+    });
+    return this.resize();
+  };
+
+  SlidePreviewer.prototype.insertSlide = function() {
+    var currentPreviewCont, slide;
+    currentPreviewCont = this.getCurrentSlidePreview().parent();
+    slide = $('<section>').addClass('slide').attr('data-id', this.editor.lastSlideId);
+    return $('<div class="deck-container">').append(slide).insertAfter(currentPreviewCont).hide().slideDown();
+  };
+
+  SlidePreviewer.prototype.updatePreview = function() {
+    var htmlContent, slide;
+    slide = $.deck('getSlide');
+    if (slide.find('.deck-slide-scaler').size() !== 0) {
+      slide = slide.children();
+    }
+    htmlContent = slide.html();
+    return this.getCurrentSlidePreview().html(htmlContent);
+  };
+
+  SlidePreviewer.prototype.getCurrentSlidePreview = function() {
+    var slideIndex;
+    slideIndex = editor.getCurrentSlideIndex();
+    return $('#slide-preview section.slide').eq(slideIndex);
+  };
+
+  SlidePreviewer.prototype.resize = function() {
+    var height;
+    height = $(window).height();
+    return $('#slide-preview').height(height);
+  };
+
+  return SlidePreviewer;
 
 })();
 
