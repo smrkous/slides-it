@@ -12,7 +12,7 @@ class Presentations extends BaseTable {
 
 	public function createPresentation($authorId, $name, $slug) {
 		$title = Helpers::escapeHtml($name);
-		$content = '<section class="slide"><h1>' . $title . '</h1></section>';
+		$content = '<section class="slide" data-id="1"><h1>' . $title . '</h1></section>';
 		return $this->createRow([
 				'name' => $name,
 				'slug' => $slug,
