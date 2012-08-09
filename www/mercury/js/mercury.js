@@ -102,6 +102,8 @@ window.Mercury = {
           redo:                ['Redo', 'Redo your last action'],
           sep:                 ' '
           },
+		hierarchy:             ['Hierarchy', 'Slide hierarchy'],
+		sep4:                  ' ',
         insertSlide:           ['Slide', 'Insert New Slide'],
         insertLink:            ['Link', 'Insert Link', { modal: '/mercury/modals/link.html', regions: ['full', 'markdown'] }],
         insertMedia:           ['Media', 'Insert Media (images and videos)', { modal: '/mercury/modals/media.html', regions: ['full', 'markdown'] }],
@@ -320,6 +322,10 @@ window.Mercury = {
       preview: function() {
 		  window.open('./', 'Preview', 'width=800,height=600', false);
 		},
+      hierarchy: function() {
+		  var window = document.getElementById('mercury_iframe').contentWindow;
+		  window.editor.editHierarchy();
+	  },
       insertAbbr: function(selection) {
 		  var window = document.getElementById('mercury_iframe').contentWindow;
 		  window.editor.insertAbbr(selection);

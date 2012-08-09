@@ -39,3 +39,21 @@ body {
 #slide-preview .deck-current {
 	z-index: 0;
 }
+#slide-preview .preview-container {
+	width: 230px;
+	margin: 0 auto
+}
+#slide-preview.hierarchy {
+	width: auto;
+	margin-left: 50px;
+}
+#slide-preview.hierarchy .preview-container {
+	width: auto;
+	margin-left: 0;
+}
+#slide-preview .slide-config {
+	clear: left;
+}
+#slide-preview .slide-config .deck-container {
+	float: left;
+}

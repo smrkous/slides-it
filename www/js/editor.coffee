@@ -11,20 +11,28 @@ $ ->
 ####################################################
 
 class Editor
+
 				constructor: (@lastSlideId) ->
 								@initializeDeck()
+								@currentSlideIndex = 0
+								@slides = []
+								$('#editor-container > section.slide').each (i, el) =>
+												if not el.id
+																el.id = 'slide-' + $(el).data('id')
+												@slides.push new Slide(this, $(el))
 	
 	
 				initializeDeck: ->
 								$.deck '#editor-container .slide', 
 												selectors: 
 																container: '#editor-container'
-	
+
 	
 				run: -> 
 								@previewer = new SlidePreviewer(this)
-		
-								$('#editor-container section.slide').attr 'data-mercury', 'full'
+								
+								for slide in @slides
+												slide.element.attr  'data-mercury', 'full'
 
 
 				save: ->
@@ -34,13 +42,12 @@ class Editor
 								if scalers.size() isnt 0
 												scalers.children().unwrap()
 							 
-								allowedAttrs = ['data-id', 'id']
+								allowedAttrs = ['data-id', 'id', 'class']
 								
 								cont.children().each () ->
 												attrs = this.attributes
 												names = (a.name for a in attrs when a.name not in allowedAttrs)
 												$(this).removeAttr names.join(' ')
-												$(this).addClass('slide')
 								
 								htmlContent = cont.html()
 								$.post('', { data: htmlContent, lastSlideId: @lastSlideId })
@@ -52,35 +59,34 @@ class Editor
 
 
 				insertSlide: ->
-								@lastSlideId++;
+								currentElement = @getCurrentSlide().element
 								
-								currentSlideIndex = @getCurrentSlideIndex()
-								
-								currentSlide = $('#editor-container .deck-current')
-								$('<section>')
+								element = $('<section>')
 												.addClass('slide')
 												.attr('data-mercury', 'full')
-												.attr('data-id', @lastSlideId)
-												.insertAfter(currentSlide);
+												.data('id', @lastSlideId)
+												.attr('id', 'slide-' + @lastSlideId)
+												.insertAfter(currentElement);
 								
-								@previewer.insertSlide()
-		
+								slide = new Slide(this, element)
+								
+								@slides.splice(@currentSlideIndex + 1, 0, slide)
+								@previewer.insertSlide(slide)
+								
+								@lastSlideId++;
+								@currentSlideIndex++;
+								
 								@initializeDeck()
-								$.deck('go', currentSlideIndex + 1);
-		
+								$.deck('go', @currentSlideIndex);
 								Mercury.trigger('reinitialize');
 				
-		
-				getCurrentSlideIndex: ->
-								slideIndex = -1
-		
-								classNames = $('#editor-container').attr 'class'
-								$.each classNames.split(/\s+/), ->
-												if this.substring(0, 9) is 'on-slide-'
-																slideIndex = parseInt(this.substring 9)
-																return false # breaks iteration
-		
-								return slideIndex
+				
+				editHierarchy: ->
+								@previewer.showHierarchy()
+								
+								
+				getCurrentSlide: ->
+								return @slides[@currentSlideIndex]
 
 
 
@@ -97,54 +103,123 @@ class SlidePreviewer
 				
 				
 				init: ->
-								_this = this
+								@previews = []
 								
 								$('#slide-preview section.slide')
-												.wrap($('<div class="deck-container">'))
+												.wrapAll($('<div class=preview-container>'))
+												.each (i, el) =>
+																preview = new SlidePreview(@editor, $(el), @editor.slides[i])
+																@previews.push preview
 								
-								$('#slide-preview section.slide').on 'click', -> 
-												_this.updatePreview()
-												idx = $(this).parent().prevAll('.deck-container').size()
+								$('#slide-preview section.slide').on 'click', (e) => 
+												@updatePreview()
+												
+												slide = $(e.delegateTarget)
+												idx = slide.parent().prevAll('.deck-container').size()
+												
 												$.deck 'go', idx
+												
+												@editor.currentSlideIndex = idx
 								
-								$(window).resize ->
-												_this.resize()
+								$(window).resize => @resize()
 								
 								@resize()
 								
 				
-				insertSlide: ->
-								currentPreviewCont = @getCurrentSlidePreview().parent()
+				insertSlide: (slide) ->
+								currentPreviewCont = @getCurrentPreview().container
 								
-								slide = $('<section>')
+								element = $('<section>')
 												.addClass('slide')
-												.attr('data-id', @editor.lastSlideId)
-												
-								$('<div class="deck-container">')
-												.append(slide)
+												.data('id', @editor.lastSlideId)
+												.attr('id', 'slide-' + @editor.lastSlideId)
 												.insertAfter(currentPreviewCont)
-												.hide()
-												.slideDown()
+												
+								preview = new SlidePreview(@editor, element, slide);
+								
+								preview.container.hide()
+								preview.container.slideDown()
+								
+								newIdx = @editor.currentSlideIndex + 1
+								@previews.splice(newIdx, 0, preview)
 
 
 				updatePreview: ->
-								slide = $.deck('getSlide')
+								slide = @editor.getCurrentSlide().element
 								if slide.find('.deck-slide-scaler').size() isnt 0
 												slide = slide.children()
 		
 								htmlContent = slide.html()
-		
-								@getCurrentSlidePreview().html(htmlContent)
+								@getCurrentPreview().setContent(slide.html())
 				
 				
-				getCurrentSlidePreview: ->
-								slideIndex = editor.getCurrentSlideIndex()
-								return $('#slide-preview section.slide').eq(slideIndex)
+				getCurrentPreview: ->
+								currentIdx = @editor.currentSlideIndex
+								return @previews[currentIdx]
 
 
 				resize: ->
 								height = $(window).height()
 								$('#slide-preview').height(height)
+				
+				
+				showHierarchy: ->
+								$('#slide-preview').animate(
+												width: $(window).width()
+								)
+								.addClass('hierarchy')
+								
+								$.each @previews, (i, preview) =>
+												preview.container.wrap $('<div class=slide-config>')
+												configContainer = preview.container.parent()
+												
+
+
+class Slide
+				constructor: (@editor, @element) ->
+								@parent = null
+								
+				
+				getLevel: ->
+								return @element.attr('id').split('/').length - 1
+				
+				
+				getId: ->
+								return @element.attr('id')
+				
+				
+				getSimpleId: ->
+								[path..., id] = @getId().split('/')
+								return id
+				
+				
+				getIdPath: ->
+								[path..., id] = @getId().split('/')
+								if path.length isnt 0
+												return path.join('/') + '/'
+								else 
+												return ''
+				
+				
+				setParent: (parent) ->
+								@parent = parent
+								path = if parent then parent.getId() + '/' else ''
+								@element.attr('id', path + @getSimpleId())
+								
+				
+				getParent: ->
+								return @parent
+				
+
+
+class SlidePreview
+				constructor: (@editor, @element, @slide) ->
+								@element.wrap $('<div class="deck-container">')
+								@container = @element.parent()
+
+
+				setContent: (content) ->
+								@element.html(content)
 
 
 
