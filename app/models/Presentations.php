@@ -1,7 +1,5 @@
 <?php
 
-use Nette\Templating\Helpers;
-
 class Presentations extends BaseTable {
 
 
@@ -11,13 +9,27 @@ class Presentations extends BaseTable {
 
 
 	public function createPresentation($authorId, $name, $slug) {
-		$title = Helpers::escapeHtml($name);
-		$content = '<section class="slide"><h1>' . $title . '</h1></section>';
+		$underline = '';
+		$nameLength = Nette\Utils\Strings::length($name);
+		for($i = 0; $i < $nameLength; $i++) {
+			$underline .= '=';
+		}
+
+		$data = [
+			'lastOrdinal' => 1,
+			'slides' => [[
+				'id' => 'slide-1',
+				'ordinal' => 1,
+				'content' => $name . "\n" . $underline
+			]]
+		];
+
+		$content = PresentationContent::fromArray($data);
+
 		return $this->createRow([
 				'name' => $name,
 				'slug' => $slug,
-				'content' => $content,
-				'last_slide_id' => 1,
+				'content' => serialize($content),
 				'author_id' => $authorId
 			]);
 	}
@@ -35,6 +47,16 @@ class Presentations extends BaseTable {
 				'slug' => $slug,
 				'author_id' => $authorId
 			]);
+	}
+
+
+	public function save($presentationId, $content) {
+		$contentSerialised = serialize($content);
+
+		$this->createOrUpdate([
+			'id' => $presentationId,
+			'content' => trim($contentSerialised)
+		]);
 	}
 
 }

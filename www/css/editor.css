@@ -1,0 +1,95 @@
+body {
+	font: 16px/1.5 "Trebuchet MS", "Geneva CE", lucida, sans-serif;
+	color: #bbb;
+	background: url('../img/bg.png');
+	margin: 0 auto;
+	width: 100%;
+}
+
+html.csstransforms {
+	overflow: auto;
+}
+
+.deck-container .slide .slide {
+	visibility: visible;
+}
+
+#slide-preview {
+	float: left;
+	width: 260px;
+	overflow: auto;
+	padding: 10px 0;
+	background-color: rgba(20, 20, 20, 0.9);
+}
+#slide-preview .deck-container {
+	width: 205px;
+	height: 150px;
+	position: relative;
+	min-height: 0;
+	padding: 0 8px;
+	margin: 0 auto;
+}
+#slide-preview .deck-container > .slide {
+	-o-transform: scale(0.2);
+	-moz-transform: scale(0.2);
+	-webkit-transform: scale(0.2);
+	-o-transform-origin: 0 0;
+	-moz-transform-origin: 0 0;
+	-webkit-transform-origin: 0 0;
+	transform: scale(0.2);
+	transform-origin: 0 0;
+	width: 1024px;
+}
+#slide-preview button {
+	margin: 0 auto;
+	width: 100px;
+}
+#slide-preview .remover {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+#slide-preview .betweener {
+	height: 15px;
+	cursor: pointer;
+	background-color: dodgerblue;
+	opacity: 0.05;
+}
+#slide-preview .betweener:hover {
+	opacity: 1;
+}
+
+.menu ul {
+	list-style: none;
+	margin: 0;
+	padding-left: 10px;
+}
+.menu li {
+	display: inline-block;
+}
+.menu li a {
+	display: block;
+	padding: 5px;
+	background-color: black;
+	color: white;
+	text-decoration: none;
+}
+.menu li a:hover {
+	background-color: dodgerblue;
+	color: white;
+}
+
+.editor {
+	width: 400px;
+	height: 500px;
+	background: #333;
+	color: white;
+	font-size: 105%;
+	box-shadow: #101010 0 0 20px inset;
+	border: 2px solid #1A1A1A;
+	border-radius: 5px;
+	padding: 5px;
+	float: left;
+	margin-left: 10px;
+	resize: none;
+}

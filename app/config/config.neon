@@ -51,6 +51,6 @@ development < common:
 		database:
 			driver: mysql
 			host: 127.0.0.1
-			dbname: slideit
+			dbname: slideit2
 			user: root
 			password: ''

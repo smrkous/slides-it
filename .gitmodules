@@ -1,0 +1,3 @@
+[submodule "libs/texy"]
+	path = libs/texy
+	url = git@github.com:redhead/texy.git

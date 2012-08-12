@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+		<meta name="robots" content="{$robots}" n:ifset="$robots">
+
+		<title>SlideIt Editor</title>
+
+		<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/editor.css" type="text/css">
+
+		<link rel="stylesheet" href="{$basePath}/deck/core/deck.core.css">
+		<link rel="stylesheet" href="{$basePath}/deck/extensions/goto/deck.goto.css">
+		<link rel="stylesheet" href="{$basePath}/deck/extensions/menu/deck.menu.css">
+		<link rel="stylesheet" href="{$basePath}/deck/extensions/navigation/deck.navigation.css">
+		<link rel="stylesheet" href="{$basePath}/deck/extensions/status/deck.status.css">
+		<link rel="stylesheet" href="{$basePath}/deck/extensions/hash/deck.hash.css">
+		<link rel="stylesheet" href="{$basePath}/deck/extensions/scale/deck.scale.css">
+
+		<link rel="stylesheet" href="{$basePath}/deck/themes/style/web-2.0.css">
+
+		<link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
+
+		<script type="text/javascript" src="{$basePath}/js/jquery-1.7.min.js"></script>
+		<script src="{$basePath}/deck/modernizr.custom.js"></script>
+	</head>
+
+	<body>
+
+		<div id="slide-preview">
+			{foreach $htmlSlides as $html}
+			<div class="deck-container">
+				<section class="slide">{!$html}</section>
+			</div>
+			{/foreach}
+		</div>
+		
+		<div class="menu">
+			<ul>
+				<li><a href="#" id="menu-save">Save</a></li>
+				<li><a href="#" id="menu-remove">Remove Slide</a></li>
+			</ul>
+		</div>
+
+		<div id="editor-container"></div>
+
+		<script type="text/javascript">
+			$(function() {
+				editor = new Editor({$content->lastOrdinal}, [
+					{foreach $content->slides as $slide}
+						new Slide(
+							{$slide->ordinal},
+							{$slide->id},
+							{$slide->content},
+							{!$slide->sectionsInJson}
+						){sep},{/sep}
+					{/foreach}
+				])
+			});
+		</script>
+
+	</body>
+
+	<script type="text/javascript">
+		paths = {
+			base: {$basePath},
+			modals: {
+				share: {plink Modal:share},
+				create: {plink Modal:create}
+			}
+		};
+	</script>
+
+	<script type="text/javascript" src="{$basePath}/js/netteForms.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/nette.ajax.js"></script>
+	<script type="text/javascript" src="{$basePath}/js/slideit.js"></script>
+
+	<script src="{$basePath}/deck/core/deck.core.js"></script>
+	<script src="{$basePath}/deck/extensions/hash/deck.hash.js"></script>
+	<script src="{$basePath}/deck/extensions/menu/deck.menu.js"></script>
+	<script src="{$basePath}/deck/extensions/goto/deck.goto.js"></script>
+	<script src="{$basePath}/deck/extensions/status/deck.status.js"></script>
+	<script src="{$basePath}/deck/extensions/navigation/deck.navigation.js"></script>
+	<script src="{$basePath}/deck/extensions/scale/deck.scale.js"></script>
+
+	<script src="{$basePath}/js/editor.js"></script>
+</html>
+
+

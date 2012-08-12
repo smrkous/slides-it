@@ -34,7 +34,11 @@
 	<body class="deck-container">
 		
 		
-{!$presentation->content|indent:2}
+		{foreach $htmlSlides as $slide}
+		<section class="slide">
+			{!$slide}
+		</section>
+		{/foreach}
 		
 		
 		<!-- deck.navigation snippet -->
@@ -60,9 +64,7 @@
 		<a href="." title="Permalink to this slide" class="deck-permalink">#</a>
 
 
-		<!-- Grab CDN jQuery, with a protocol relative URL; fall back to local if offline -->
 		<script src="{$basePath}/deck/jquery-1.7.min.js"></script>
-		<script>window.jQuery || document.write('<script src="../jquery-1.7.min.js"><\/script>')</script>
 
 		<!-- Deck Core and extensions -->
 		<script src="{$basePath}/deck/core/deck.core.js"></script>
