@@ -24,9 +24,9 @@ class UserPresentations extends BaseTable {
 	public function findPresentationsByUsername($username) {
 		$user = $this->users->findByUsername($username);
 
-		return $this->presentations->findBy([
+		return $this->presentations->findBy(array(
 				'author_id' => $user->id
-			]);
+			));
 	}
 
 

@@ -6,7 +6,7 @@ class PresentationContent {
 	public $lastOrdinal;
 
 	/** @var Slide[] */
-	public $slides = [];
+	public $slides = array();
 
 
 	public static function fromArray($data) {
@@ -26,7 +26,7 @@ class PresentationContent {
 
 
 	private static function createSlides($data) {
-		$slides = [];
+		$slides = array();
 		foreach($data as $slideData) {
 			$slides[] = Slide::fromArray($slideData);
 		}
@@ -35,7 +35,7 @@ class PresentationContent {
 
 
 	public function createHtmlSlides() {
-		$html = [];
+		$html = array();
 
 		$texy = new Texy();
 		foreach($this->slides as $slide) {

@@ -60,10 +60,10 @@ class ModalPresenter extends BasePresenter {
 			$p = $this->context->presentations
 				->createPresentation($userId, $name, $slug);
 
-			$this->redirect('Presentation:edit', [
+			$this->redirect('Presentation:edit', array(
 				'username' => $this->user->identity->username,
 				'slug' => $p->slug
-			]);
+			));
 		} catch(DuplicateEntryException $e) {
 			$this->addMessage('One of your presentations already has this URL representation');
 		}
@@ -71,7 +71,7 @@ class ModalPresenter extends BasePresenter {
 	
 	private function addMessage($message) {
 		if(!isset($this->template->messages)) {
-			$this->template->messages = [];
+			$this->template->messages = array();
 		}
 		$this->template->messages[] = $message;
 	}

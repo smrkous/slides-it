@@ -12,9 +12,9 @@ class Users extends BaseTable {
 	 * @return \Nette\Database\Table\Selection
 	 */
 	public function findByUsername($username) {
-		return $this->findOneBy([
+		return $this->findOneBy(array(
 				'username' => $username
-			]);
+			));
 	}
 
 
@@ -24,10 +24,10 @@ class Users extends BaseTable {
 		if(!$following) return;
 
 		try {
-			$this->connection->table('followings')->insert([
+			$this->connection->table('followings')->insert(array(
 				'user_id' => $followerId,
 				'following_id' => $following->id
-			]);
+			));
 		} catch(PDOException $e) {
 			if($e->getCode() == 23000) return;
 			throw $e;
@@ -40,18 +40,18 @@ class Users extends BaseTable {
 
 		if(!$following) return;
 
-		$this->connection->table('followings')->where([
+		$this->connection->table('followings')->where(array(
 			'user_id' => $followerId,
 			'following_id' => $following->id
-		])->delete();
+		))->delete();
 	}
 
 
 	public function isFollowed($userId, $byFolllowerId) {
-		return $this->connection->table('followings')->where([
+		return $this->connection->table('followings')->where(array(
 			'user_id' => $byFolllowerId,
 			'following_id' => $userId
-		])->count() === 1;
+		))->count() === 1;
 	}
 
 }

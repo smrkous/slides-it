@@ -57,7 +57,7 @@ class UserPresenter extends BasePresenter {
 			$model->unfollow($userId, $followingUsername);
 		}
 
-		$this->redirect('this', ['username' => $followingUsername]);
+		$this->redirect('this', array('username' => $followingUsername));
 	}
 
 }

@@ -15,48 +15,48 @@ class Presentations extends BaseTable {
 			$underline .= '=';
 		}
 
-		$data = [
+		$data = array(
 			'lastOrdinal' => 1,
-			'slides' => [[
+			'slides' => array(array(
 				'id' => 'slide-1',
 				'ordinal' => 1,
 				'content' => $name . "\n" . $underline
-			]]
-		];
+			))
+		);
 
 		$content = PresentationContent::fromArray($data);
 
-		return $this->createRow([
+		return $this->createRow(array(
 				'name' => $name,
 				'slug' => $slug,
 				'content' => serialize($content),
 				'author_id' => $authorId
-			]);
+			));
 	}
 
 
 	public function findPresentationsByAuthor($authorId) {
-		return $this->findBy([
+		return $this->findBy(array(
 				'author_id' => $authorId
-			]);
+			));
 	}
 
 
 	public function findBySlugAndAuthor($slug, $authorId) {
-		return $this->findOneBy([
+		return $this->findOneBy(array(
 				'slug' => $slug,
 				'author_id' => $authorId
-			]);
+			));
 	}
 
 
 	public function save($presentationId, $content) {
 		$contentSerialised = serialize($content);
 
-		$this->createOrUpdate([
+		$this->createOrUpdate(array(
 			'id' => $presentationId,
 			'content' => trim($contentSerialised)
-		]);
+		));
 	}
 
 }

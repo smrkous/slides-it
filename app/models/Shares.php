@@ -12,9 +12,9 @@ class Shares extends BaseTable {
 	 * @return \Nette\Database\Table\Selection
 	 */
 	public function findByPresentation($presentationId) {
-		return $this->findBy([
+		return $this->findBy(array(
 				'presentation_id' => $presentationId
-			]);
+			));
 	}
 
 }
